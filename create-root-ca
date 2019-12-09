@@ -30,6 +30,7 @@ source ${BIN_DIR}/functions
 
 HOME=$CA_DIR
 CA_NAME=$( basename "${HOME}" )
+export SAN="DNS:${CA_NAME}"
 
 echo
 echo "Creating root CA in '${HOME}'"
