@@ -1,7 +1,7 @@
 [ default ]
 ca                      = {{CA_NAME}}
 domain                  = {{CA_DOMAIN}}
-base_url                = http://$domain/ca        # CA base URL
+base_url                = http://pki.$domain/ca        # CA base URL
 aia_url                 = $base_url/$ca.crt        # CA certificate URL
 crl_url                 = $base_url/$ca.crl        # CRL distribution point
 name_opt                = multiline,-esc_msb,utf8 # Display UTF-8 characters
@@ -11,7 +11,7 @@ name_opt                = multiline,-esc_msb,utf8 # Display UTF-8 characters
 
 [ req ]
 default_bits            = 2048                  # RSA key size
-default_days            = 730                   # How long to certify for
+default_days            = 10950                 # How long to certify for
 encrypt_key             = yes                   # Protect private key
 default_md              = sha256                # MD to use
 utf8                    = yes                   # Input is UTF-8
@@ -80,7 +80,7 @@ keyUsage                = critical,digitalSignature,keyEncipherment
 basicConstraints        = CA:false
 extendedKeyUsage        = serverAuth,clientAuth
 subjectKeyIdentifier    = hash
-subjectAltName          = $ENV::SAN
+subjectAltName          = ${ENV::SAN}
 authorityKeyIdentifier  = keyid:always
 authorityInfoAccess     = @issuer_info
 crlDistributionPoints   = @crl_info

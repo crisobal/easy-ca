@@ -2,7 +2,7 @@
 
 [ req ]
 default_bits            = 2048                  # RSA key size
-default_days            = 730                   # How long to certify for
+default_days            = 7300                  # How long to certify for
 encrypt_key             = no                    # Protect private key
 default_md              = sha256                # MD to use
 utf8                    = yes                   # Input is UTF-8
@@ -31,4 +31,4 @@ commonName_default		= {{CA_HOSTNAME}}
 keyUsage                = critical,digitalSignature,keyEncipherment
 extendedKeyUsage        = serverAuth,clientAuth
 subjectKeyIdentifier    = hash
-subjectAltName          = $ENV::SAN
+subjectAltName          = ${ENV::SAN}
