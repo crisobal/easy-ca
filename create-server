@@ -61,6 +61,20 @@ if [ -f conf/${SAFE_NAME}.server.conf ]; then
     exit 1
 fi
 
+echo
+echo -n "Enter passphase for encrypting server key: "
+read -s PASS1
+echo
+echo -n "Verifying - Enter passphase for encrypting server key: "
+read -s PASS2
+echo
+
+if [ "${PASS1}" != "${PASS2}" ]; then
+    echo "Passphrases did not match, exiting."
+    exit 1
+fi
+export KEY_PASS=${PASS1}
+
 echo -n "Enter passphase for signing CA key: "
 read -s PASS
 echo
@@ -72,10 +86,12 @@ export SAN=${ALT_NAME}
 template "${BIN_DIR}/templates/server.tpl" "conf/${SAFE_NAME}.server.conf"
 
 # Create the server key and csr
-openssl req -new -nodes \
+openssl req -new \
             -config conf/${SAFE_NAME}.server.conf \
             -keyout private/${SAFE_NAME}.server.key \
-            -out csr/${SAFE_NAME}.server.csr
+            -out csr/${SAFE_NAME}.server.csr \
+            -passin env:KEY_PASS
+
 chmod 0400 private/${SAFE_NAME}.server.key
 
 # Create the server certificate
