@@ -84,6 +84,15 @@ openssl ca -batch -notext \
            -extensions client_ext \
            -passin env:CA_PASS
 
+
+openssl pkcs12 -export -inkey private/${SAFE_NAME}.client.key \
+           -in certs/${SAFE_NAME}.client.crt \
+           -name ${SAFE_NAME} -out pkcs12/${SAFE_NAME}.client.p12 \
+           -certfile ca/chain.pem \
+           -passin env:KEY_PASS \
+           -passout env:KEY_PASS
+
+
 popd > /dev/null
 
 echo

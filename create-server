@@ -103,6 +103,13 @@ openssl ca -batch -notext \
            -extensions server_ext \
            -passin env:CA_PASS
 
+openssl pkcs12 -export -inkey private/${SAFE_NAME}.server.key \
+           -in certs/${SAFE_NAME}.server.crt \
+           -name ${SAFE_NAME} -out pkcs12/${SAFE_NAME}.server.p12 \
+           -certfile ca/chain.pem \
+           -passin env:KEY_PASS \
+           -passout env:KEY_PASS
+
 popd > /dev/null
 
 echo

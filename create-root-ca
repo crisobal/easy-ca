@@ -30,7 +30,7 @@ source ${BIN_DIR}/functions
 
 HOME=$CA_DIR
 CA_NAME=$( basename "${HOME}" )
-export SAN="DNS:${CA_NAME}"
+export SAN="${CA_NAME}"
 
 echo
 echo "Creating root CA in '${HOME}'"
@@ -78,6 +78,8 @@ openssl ca -selfsign -batch -notext \
            -days 10952 \
            -extensions root_ca_ext \
            -passin env:CA_PASS
+
+cat ca/ca.crt > ca/chain.pem
 
 # Create the root CRL
 openssl ca -gencrl -batch \
