@@ -87,7 +87,7 @@ openssl ca -batch -notext \
            -config conf/ca.conf \
            -in ${HOME}/ca/ca.csr \
            -out ${HOME}/ca/ca.crt \
-           -days 3652 \
+           -days 10950 \
            -extensions signing_ca_ext \
            -passin env:CA_PARENT_PASS
 popd > /dev/null
@@ -104,7 +104,8 @@ fi
 cat ca/ca.crt >> ca/chain.pem
 
 for BIN in ${BINARIES}; do
-    cp ${BIN_DIR}/${BIN} bin/
+    # cp ${BIN_DIR}/${BIN} bin/
+    ln -s ${BIN_DIR}/${BIN} bin/${BIN}
 done
 cp -r ${BIN_DIR}/templates bin/
 
