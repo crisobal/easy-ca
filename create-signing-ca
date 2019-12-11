@@ -71,7 +71,7 @@ pushd ${HOME} > /dev/null
 template "${BIN_DIR}/templates/signing.tpl" "conf/ca.conf"
 
 # Create the signing CA key
-openssl genrsa -out ca/private/ca.key -passout env:CA_PASS 2048
+openssl genrsa -out ca/private/ca.key -aes256 -passout env:CA_PASS 2048
 chmod 0400 ca/private/ca.key
 
 # Create the signing CA csr
@@ -95,6 +95,7 @@ popd > /dev/null
 # Create the signing CRL
 openssl ca -gencrl -batch \
            -config conf/ca.conf \
+           -passin env:CA_PASS \
            -out crl/ca.crl
 
 # Create the chain bundle if this is a sub-CA

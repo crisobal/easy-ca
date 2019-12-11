@@ -90,6 +90,7 @@ openssl req -new \
             -config conf/${SAFE_NAME}.server.conf \
             -keyout private/${SAFE_NAME}.server.key \
             -out csr/${SAFE_NAME}.server.csr \
+            -passout env:KEY_PASS \
             -passin env:KEY_PASS
 
 chmod 0400 private/${SAFE_NAME}.server.key

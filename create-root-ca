@@ -60,15 +60,15 @@ pushd ${HOME} > /dev/null
 template "${BIN_DIR}/templates/root.tpl" "conf/ca.conf"
 
 # Create the root CA csr
-openssl genrsa -out ca/private/ca.key -passout env:CA_PASS 4096
+openssl genrsa -out ca/private/ca.key -aes256 -passout env:CA_PASS 4096
 chmod 0400 ca/private/ca.key
 
 # Create the root CA csr
 openssl req -new -batch \
             -config conf/ca.conf \
+            -passin env:CA_PASS \
             -key ca/private/ca.key \
-            -out ca/ca.csr \
-            -passin env:CA_PASS
+            -out ca/ca.csr 
 
 # Create the root CA certificate
 openssl ca -selfsign -batch -notext \
@@ -84,6 +84,7 @@ cat ca/ca.crt > ca/chain.pem
 # Create the root CRL
 openssl ca -gencrl -batch \
            -config conf/ca.conf \
+           -passin env:CA_PASS \
            -out crl/ca.crl
 
 # Replicate the existing binary directory
